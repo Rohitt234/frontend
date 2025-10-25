@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Dashboard • Krushi Mitra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body data-page="qa">
+  <header class="navbar">
+    <div class="container nav-inner">
+          <a class="brand" href="./index.html">🌱 Krushi Mitra</a>
+      <nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a class="nav-link" href="./index.html">Home</a></li>
+          <li><a class="nav-link" href="./schemes.html">Schemes</a></li>
+          <li><a class="nav-link" href="./products.html">Products</a></li>
+          <li><a class="nav-link" href="./weather.html">Weather</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:20px 0">
+    <h2 class="section-title">Farmer Questions</h2>
+    <p class="muted">Only experts can view and answer. Admin approval is required before first login.</p>
+    <div id="qaList" class="grid" style="grid-template-columns:1fr; gap:12px"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Krushi Mitra.</p>
+      <p>Contact: <a href="mailto:support@krushimitra.in">support@krushimitra.in</a></p>
+    </div>
+  </footer>
+
+  <script src="./main.js"></script>
+</body>
+</html>
+
+

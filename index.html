@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌱 Krushi Mitra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="./index.html">🌱 Krushi Mitra</a>
+      <nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a class="nav-link active" href="./index.html">Home & About us</a></li>
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="about">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>Krushi Mitra</h1>
+          <p>Krushi Mitra (Friend of Farmers) brings digital guidance, government schemes, product listings, weather updates, and expert Q&A into a single farmer-friendly platform.</p>
+          <ul class="muted" style="margin:0 0 16px 16px">
+            <li>Goal: Digital guidance, schemes, products, weather, and Q&A</li>
+            <li>Vision: Empower farmers, connect experts, reduce middlemen</li>
+          </ul>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-circle"></div>
+          <div class="art-leaf"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">What you can do</h2>
+        <div class="grid grid-3">
+          <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+            <h3>Crop Guidance</h3>
+            <p>Personalized crop suggestions and best practices tailored for your region.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-people-group"></i></div>
+            <h3>Expert Support</h3>
+            <p>Ask questions and get help from agriculture experts.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+            <h3>Weather & Market</h3>
+            <p>Track weather and prices to plan sowing and selling better.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <h3>Schemes & Subsidies</h3>
+            <p>Discover government schemes and benefits that match your profile.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Secure Access</h3>
+            <p>Role-based login for Farmers, Experts, Visitors, and Admins.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="roles">
+      <div class="container">
+        <h2 class="section-title">Choose your role</h2>
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>Farmer</h3>
+            <p class="muted">Register or login to ask questions, view crop guidance, schemes, and products.</p>
+            <div class="form-actions">
+              <button class="btn btn-primary" data-open-modal="registerModal" data-role="FARMER">Register</button>
+              <button class="btn btn-secondary" data-open-modal="loginModal" data-role="FARMER">Login</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Expert</h3>
+            <p class="muted">Help answer farmer queries and share best practices.</p>
+            <div class="form-actions">
+              <button class="btn btn-primary" data-open-modal="registerModal" data-role="EXPERT">Register</button>
+              <button class="btn btn-secondary" data-open-modal="loginModal" data-role="EXPERT">Login</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Visitor</h3>
+            <p class="muted">Browse public information: schemes, products, and weather. No login required.</p>
+            <div class="form-actions">
+              <a class="btn btn-secondary" href="./visitor.html">Continue as Visitor</a>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Admin</h3>
+            <p class="muted">Admins can login to moderate content. Registration is disabled.</p>
+            <div class="form-actions">
+              <button class="btn btn-primary" data-open-modal="adminLoginModal" data-role="ADMIN">Admin Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Krushi Mitra. All rights reserved.</p>
+      <p>Contact: <a href="mailto:support@krushimitra.in">support@krushimitra.in</a> • Team: Student project</p>
+      <div class="socials">
+        <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="document">
+      <div class="modal-header">
+        <h3>Login</h3>
+        <button class="icon-btn" data-close-modal aria-label="Close"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="loginForm" novalidate>
+          <div class="form-field">
+            <label for="loginRole">Role</label>
+            <select id="loginRole" required>
+              <option value="">Select role</option>
+              <option value="FARMER">Farmer</option>
+              <option value="EXPERT">Expert</option>
+            </select>
+            <small class="error" data-error-for="loginRole"></small>
+          </div>
+          <div class="form-field">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" required />
+            <small class="error" data-error-for="loginEmail"></small>
+          </div>
+          <div class="form-field">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required minlength="6" />
+            <small class="error" data-error-for="loginPassword"></small>
+          </div>
+          <div class="form-actions" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a href="#" data-open-modal="forgotPasswordModal" class="muted">Forgot password?</a>
+          </div>
+          <p class="muted">New here? <a href="#" data-switch-modal="registerModal">Create an account</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal" id="registerModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="document">
+      <div class="modal-header">
+        <h3>Create your account</h3>
+        <button class="icon-btn" data-close-modal aria-label="Close"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="registerForm" novalidate>
+          <div class="form-field">
+            <label for="regName">Full Name</label>
+            <input type="text" id="regName" placeholder="e.g., Ramesh Patil" required />
+            <small class="error" data-error-for="regName"></small>
+          </div>
+          <div class="form-field">
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" placeholder="you@example.com" required />
+            <small class="error" data-error-for="regEmail"></small>
+          </div>
+          
+          <div class="form-field">
+            <label for="regPassword">Password</label>
+            <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" />
+            <small class="error" data-error-for="regPassword"></small>
+          </div>
+          <div class="form-field">
+            <label for="regRole">Role</label>
+            <select id="regRole" required>
+              <option value="FARMER">Farmer</option>
+              <option value="EXPERT">Expert</option>
+            </select>
+            <small class="error" data-error-for="regRole"></small>
+          </div>
+          <div id="expertFields" class="hide">
+            <div class="form-field">
+              <label for="regExpertise">Expertise</label>
+              <input type="text" id="regExpertise" placeholder="e.g., Soil Science, Crop Protection" />
+              <small class="error" data-error-for="regExpertise"></small>
+            </div>
+            <div class="form-field">
+              <label for="regQualifications">Qualifications</label>
+              <input type="text" id="regQualifications" placeholder="e.g., M.Sc. Agriculture" />
+              <small class="error" data-error-for="regQualifications"></small>
+            </div>
+            <p class="muted">Note: Expert accounts require admin approval before first login.</p>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Account</button>
+            <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          </div>
+          <p class="muted">Already have an account? <a href="#" data-switch-modal="loginModal">Login</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal" id="forgotPasswordModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="document">
+      <div class="modal-header">
+        <h3>Reset your password</h3>
+        <button class="icon-btn" data-close-modal aria-label="Close"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="forgotPasswordForm" novalidate>
+          <div class="form-field">
+            <label for="fpEmail">Email</label>
+            <input type="email" id="fpEmail" placeholder="you@example.com" required />
+            <small class="error" data-error-for="fpEmail"></small>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send reset link</button>
+            <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          </div>
+          <p class="muted">We will send a password reset link if this email is registered.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div class="modal" id="adminLoginModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="document">
+      <div class="modal-header">
+        <h3>Admin Login</h3>
+        <button class="icon-btn" data-close-modal aria-label="Close"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="adminLoginForm" novalidate>
+          <div class="form-field">
+            <label for="adminEmail">Email</label>
+            <input type="email" id="adminEmail" placeholder="admin@example.com" required />
+            <small class="error" data-error-for="adminEmail"></small>
+          </div>
+          <div class="form-field">
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" placeholder="••••••••" required minlength="6" />
+            <small class="error" data-error-for="adminPassword"></small>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="./main.js"></script>
+</body>
+</html>
+

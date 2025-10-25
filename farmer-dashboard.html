@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmer Dashboard • Krushi Mitra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body data-page="dashboard">
+  <header class="navbar">
+    <div class="container nav-inner">
+          <a class="brand" href="./index.html">🌱 Krushi Mitra</a>
+      <nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a class="nav-link" href="./index.html">Home</a></li>
+          <li><a class="nav-link" href="./schemes.html">Schemes</a></li>
+          <li><a class="nav-link" href="./products.html">Products</a></li>
+          <li><a class="nav-link" href="./weather.html">Weather</a></li>
+          <li><a class="nav-link" href="./qa.html">Q&A</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:20px 0">
+    <div class="grid" style="grid-template-columns:2fr 1fr;gap:16px">
+      <section>
+        <h2 class="section-title">Ask an Expert</h2>
+        <div class="card">
+          <form id="askForm">
+            <div class="form-field">
+              <label for="questionText">Your Question</label>
+              <textarea id="questionText" placeholder="Describe your crop issue or query..."></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Post Question</button>
+              <a class="btn btn-secondary" href="./qa.html">Go to Q&A</a>
+            </div>
+          </form>
+        </div>
+
+        <h2 class="section-title">Crop Guidance</h2>
+        <div id="recGrid" class="grid grid-3"></div>
+      </section>
+
+      <aside>
+        <h2 class="section-title">Recent Questions</h2>
+        <div id="recentQuestions" class="grid" style="grid-template-columns:1fr"></div>
+
+        <h2 class="section-title">Latest Schemes</h2>
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Benefit</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="schemeList"></tbody>
+          </table>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Krushi Mitra.</p>
+      <p>Contact: <a href="mailto:support@krushimitra.in">support@krushimitra.in</a></p>
+    </div>
+  </footer>
+
+  <script src="./main.js"></script>
+</body>
+</html>
+
+

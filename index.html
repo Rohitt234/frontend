@@ -153,6 +153,21 @@
             <small class="error" data-error-for="loginEmail"></small>
           </div>
           <div class="form-field">
+            <label for="loginUsername">Username</label>
+            <input type="text" id="loginUsername" placeholder="name" required />
+            <small class="error" data-error-for="loginUsername"></small>
+          </div>
+          <div class="form-field">
+            <label for="loginfirstname">Firstname</label>
+            <input type="text" id="loginfirstname" placeholder="name" required />
+            <small class="error" data-error-for="loginfirstname"></small>
+          </div>
+          <div class="form-field">
+            <label for="loginlastname">Lastname</label>
+            <input type="text" id="loginlastname" placeholder="name" required />
+            <small class="error" data-error-for="loginlastname"></small>
+          </div>
+          <div class="form-field">
             <label for="loginPassword">Password</label>
             <input type="password" id="loginPassword" placeholder="••••••••" required minlength="6" />
             <small class="error" data-error-for="loginPassword"></small>
@@ -178,9 +193,19 @@
       <div class="modal-body">
         <form id="registerForm" novalidate>
           <div class="form-field">
-            <label for="regName">Full Name</label>
-            <input type="text" id="regName" placeholder="e.g., Ramesh Patil" required />
-            <small class="error" data-error-for="regName"></small>
+            <label for="reguserName">username</label>
+            <input type="text" id="reguserName" placeholder="e.g., Ramesh12" required />
+            <small class="error" data-error-for="reguserName"></small>
+          </div>
+          <div class="form-field">
+            <label for="regfirstName">firstname</label>
+            <input type="text" id="regfirstName" placeholder="e.g., Ramesh" required />
+            <small class="error" data-error-for="regfirstName"></small>
+          </div>
+          <div class="form-field">
+            <label for="reglastName">lastname</label>
+            <input type="text" id="reglastName" placeholder="e.g., Patil" required />
+            <small class="error" data-error-for="reglastName"></small>
           </div>
           <div class="form-field">
             <label for="regEmail">Email</label>
@@ -201,7 +226,7 @@
             </select>
             <small class="error" data-error-for="regRole"></small>
           </div>
-          <div id="expertFields" class="hide">
+          <!-- <div id="expertFields" class="hide">
             <div class="form-field">
               <label for="regExpertise">Expertise</label>
               <input type="text" id="regExpertise" placeholder="e.g., Soil Science, Crop Protection" />
@@ -213,7 +238,7 @@
               <small class="error" data-error-for="regQualifications"></small>
             </div>
             <p class="muted">Note: Expert accounts require admin approval before first login.</p>
-          </div>
+          </div> -->
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Create Account</button>
             <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
@@ -259,6 +284,21 @@
       </div>
       <div class="modal-body">
         <form id="adminLoginForm" novalidate>
+          <div class="form-field">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="yash123" required />
+            <small class="error" data-error-for="username"></small>
+          </div>
+          <div class="form-field">
+            <label for="firstName">Firstname</label>
+            <input type="text" id="firstName" placeholder="yash" required />
+            <small class="error" data-error-for="firstName"></small>
+          </div>
+          <div class="form-field">
+            <label for="lastName">Lastname</label>
+            <input type="text" id="lastName" placeholder="kumar" required />
+            <small class="error" data-error-for="lastName"></small>
+          </div>
           <div class="form-field">
             <label for="adminEmail">Email</label>
             <input type="email" id="adminEmail" placeholder="admin@example.com" required />

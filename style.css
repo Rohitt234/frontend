@@ -11,6 +11,20 @@
   --shadow:0 8px 24px rgba(0,0,0,.08);
 }
 
+.view-button{
+  background-color: rgb(116, 158, 116);
+  color: white;
+  border-radius: 40px;
+  height:25px;
+  width:95px;
+  border:none;
+  cursor:pointer;
+
+}
+.view-button:hover{
+  background-color:rgb(70, 95, 70) ;
+}
+
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{

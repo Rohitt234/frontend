@@ -1,7 +1,7 @@
 // Main JS for Krushi Mitra (Vanilla JS, React-ready structure)
 // API Integration with Spring Boot Backend
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 let MOCK_MODE = false; // auto-enabled on first API failure
 
 (function(){
@@ -71,9 +71,17 @@ let MOCK_MODE = false; // auto-enabled on first API failure
     document.body.style.overflow = 'hidden';
   }
   function closeModal(modal){
-    modal.removeAttribute('open');
-    modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+    // closeModal can be called without an argument for the crop detail modal
+    const targetModal = modal || document.getElementById('crop-detail-modal-container');
+    if (targetModal) {
+      targetModal.removeAttribute('open');
+      targetModal.setAttribute('aria-hidden','true');
+      targetModal.remove(); // Remove custom modal from DOM
+    }
+    // Only reset body overflow if no other modals are open
+    if (!document.querySelector('.modal[open]')) {
+       document.body.style.overflow = '';
+    }
   }
 
   // Open/Close modal bindings
@@ -116,6 +124,7 @@ let MOCK_MODE = false; // auto-enabled on first API failure
     const err = document.querySelector(`[data-error-for="${input.id}"]`);
     if (err) err.textContent = msg || '';
   }
+  // RE-ADDED required validator function
   function required(input){
     if (!input.value.trim()) { setError(input, 'This field is required'); return false; }
     setError(input, ''); return true;
@@ -149,8 +158,11 @@ let MOCK_MODE = false; // auto-enabled on first API failure
       const roleSel = $('#loginRole');
       const email = $('#loginEmail');
       const pass = $('#loginPassword');
-      const ok = [required(email) && emailLike(email), required(pass) && minLen(pass, 6)].every(Boolean);
-      if (!ok) return;
+      const username=$('#loginUsername');
+      const firstname=$('#loginfirstname');
+      const lastname=$('#loginlastname');
+      // const ok = [required(email) && emailLike(email), required(pass) && minLen(pass, 6)].every(Boolean);
+      // if (!ok) return;
 
       try {
         // Try API call first, fallback to mock data if backend is not available
@@ -158,32 +170,21 @@ let MOCK_MODE = false; // auto-enabled on first API failure
           const response = await apiCall('/auth/login', {
             method: 'POST',
             body: JSON.stringify({
-              username: email.value,
-              password: pass.value
+              email: email.value,
+              password: pass.value,
+              username:username.value,
+              firstName:firstname.value,
+              lastName:lastname.value,
+              role:roleSel.value
             })
           });
           setCurrentUser(response);
-          closeModal($('#loginModal'));
+          // closeModal($('#loginModal'));
           routeToRole(response.user.role);
         } catch (apiError) {
           // Fallback to mock login
           console.log('Backend not available, using mock login');
-          const role = (roleSel && roleSel.value) ? roleSel.value : 'FARMER';
-          const mockUser = {
-            token: 'mock-jwt-token-' + Date.now(),
-            user: {
-              id: Date.now(),
-              username: email.value,
-              email: email.value,
-              firstName: 'Test',
-              lastName: 'User',
-              role: role
-            }
-          };
-          setCurrentUser(mockUser);
-          closeModal($('#loginModal'));
-          routeToRole(role);
-          alert('Login successful! Welcome back!');
+         
         }
       } catch (error) {
         alert('Login failed: ' + error.message);
@@ -196,65 +197,58 @@ let MOCK_MODE = false; // auto-enabled on first API failure
   if (regForm){
     regForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = $('#regName');
+      const username = $('#reguserName');
+      const firstname=$('#regfirstName');
+      const lastname=$('#reglastName');
       const email = $('#regEmail');
       const pass = $('#regPassword');
       const roleSel = $('#regRole');
       const expertise = $('#regExpertise');
       const qualifications = $('#regQualifications');
-      const ok = [required(name), required(email) && emailLike(email), required(pass) && minLen(pass, 6), required(roleSel)].every(Boolean);
-      if (!ok) return;
+      // const ok = [ required(email) && emailLike(email), required(pass) && minLen(pass, 6), required(roleSel),required(firstname),required(lastname),required(username)].every(Boolean);
+      // if (!ok) return;
 
       try {
-        const nameParts = name.value.trim().split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ') || '';
+        // const nameParts = name.value.trim().split(' ');
+        // const firstName = nameParts[0] || '';
+        // const lastName = nameParts.slice(1).join(' ') || '';
 
         // Try API call first, fallback to mock data if backend is not available
         try {
+          console.log(`firstname-${firstname.value},lastname-${lastname.value}`)
           const response = await apiCall('/auth/register', {
             method: 'POST',
             body: JSON.stringify({
-              username: email.value,
+              username: username.value,
               email: email.value,
               password: pass.value,
-              firstName: firstName,
-              lastName: lastName,
+              firstName: firstname.value,
+              lastName: lastname.value,
               role: roleSel.value,
-              ...(roleSel.value === 'EXPERT' ? {
-                expertise: (expertise && expertise.value) || '',
-                qualifications: (qualifications && qualifications.value) || ''
-              } : {})
+              // ...(roleSel.value === 'EXPERT' ? {
+              //   expertise: (expertise && expertise.value) || '',
+              //   qualifications: (qualifications && qualifications.value) || ''
+              // } : {})
             })
           });
           setCurrentUser(response);
-        } catch (apiError) {
-          // Fallback to mock registration
-          console.log('Backend not available, using mock registration');
-          // Prevent duplicate registration by email in mock mode
-          const existing = getMockRegisteredEmails();
-          if (existing.includes(email.value)){
-            alert('This email is already registered. Please login.');
-            return;
-          }
-          const mockUser = {
-            token: 'mock-jwt-token-' + Date.now(),
-            user: {
-              id: Date.now(),
-              username: email.value,
-              email: email.value,
-              firstName: firstName,
-              lastName: lastName,
-              role: roleSel.value
-            }
-          };
-          setCurrentUser(mockUser);
-          addMockRegisteredEmail(email.value);
-        }
-
-        closeModal($('#registerModal'));
+          closeModal($('#registerModal'));
         routeToRole(roleSel.value);
         alert('Registration successful! Welcome to Krushi Mitra!');
+        } catch (apiError) {
+          // Fallback to mock registration
+          console.log(apiError)
+          console.log('Backend not available, using mock registration');
+          // Prevent duplicate registration by email in mock mode
+          // const existing = getMockRegisteredEmails();
+          // if (existing.includes(email.value)){
+          //   alert('This email is already registered. Please login.');
+          //   return;
+          // }
+          
+        }
+
+        
       } catch (error) {
         alert('Registration failed: ' + error.message);
       }
@@ -280,6 +274,7 @@ let MOCK_MODE = false; // auto-enabled on first API failure
     forgotForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fpEmail = $('#fpEmail');
+      // Validators were commented out/missing definition, leading to error. Re-enabled required functions.
       const ok = required(fpEmail) && emailLike(fpEmail);
       if (!ok) return;
       try {
@@ -305,8 +300,11 @@ let MOCK_MODE = false; // auto-enabled on first API failure
       e.preventDefault();
       const email = $('#adminEmail');
       const pass = $('#adminPassword');
-      const ok = [required(email) && emailLike(email), required(pass) && minLen(pass, 6)].every(Boolean);
-      if (!ok) return;
+      const username=$('#username');
+      const firstname=$('#firstName');
+      const lastname=$('#lastName');
+      // const ok = [required(email) && emailLike(email), required(pass) && minLen(pass, 6)].every(Boolean);
+      // if (!ok) return;
 
       try {
         // Try API call first, fallback to mock data if backend is not available
@@ -314,8 +312,12 @@ let MOCK_MODE = false; // auto-enabled on first API failure
           const response = await apiCall('/auth/login', {
             method: 'POST',
             body: JSON.stringify({
-              username: email.value,
-              password: pass.value
+              username: username.value,
+              password: pass.value,
+              lastName:lastname.value,
+              firstName:firstname.value,
+              email:email.value,
+              role:'ADMIN'
             })
           });
 
@@ -328,23 +330,24 @@ let MOCK_MODE = false; // auto-enabled on first API failure
           closeModal($('#adminLoginModal'));
           window.location.href = './admin.html';
         } catch (apiError) {
+          console.log(apiError);
           // Fallback to mock admin login
           console.log('Backend not available, using mock admin login');
-          const mockUser = {
-            token: 'mock-admin-jwt-token-' + Date.now(),
-            user: {
-              id: Date.now(),
-              username: email.value,
-              email: email.value,
-              firstName: 'Admin',
-              lastName: 'User',
-              role: 'ADMIN'
-            }
-          };
-          setCurrentUser(mockUser);
-          closeModal($('#adminLoginModal'));
-          window.location.href = './admin.html';
-          alert('Admin login successful!');
+          // const mockUser = {
+          //   token: 'mock-admin-jwt-token-' + Date.now(),
+          //   user: {
+          //     id: Date.now(),
+          //     username: email.value,
+          //     email: email.value,
+          //     firstName: 'Admin',
+          //     lastName: 'User',
+          //     role: 'ADMIN'
+          //   }
+          // };
+          // setCurrentUser(mockUser);
+          // closeModal($('#adminLoginModal'));
+          // window.location.href = './admin.html';
+          // alert('Admin login successful!');
         }
       } catch (error) {
         alert('Admin login failed: ' + error.message);
@@ -458,8 +461,8 @@ let MOCK_MODE = false; // auto-enabled on first API failure
       renderRecommendations(container, crops.slice(0, 6));
     } catch (error) {
       console.error('Failed to load crops:', error);
-      MOCK_MODE = true;
-      renderRecommendations(container, DUMMY.recommendations);
+      // MOCK_MODE = true;
+      // renderRecommendations(container, DUMMY.recommendations);
     }
   }
 
@@ -483,15 +486,96 @@ let MOCK_MODE = false; // auto-enabled on first API failure
       </div>
     `).join('');
   }
+  
+  // Renamed to window.rendercrops later to fix scope issue. Keeping name here for function body readability.
+  async function rendercrops(id) { 
+            const endpoint = `/crops/${id}`;
+            let cropDetails;
+
+            // Simple loading state
+            document.body.insertAdjacentHTML('beforeend', '<div id="loading-spinner" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.8);z-index:1001;display:flex;justify-content:center;align-items:center;"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div><p class="ml-3 text-green-700">Fetching data...</p></div>');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            try {
+                cropDetails = await apiCall(endpoint);
+            } catch (error) {
+                console.error("Failed to fetch crop details:", error);
+                // The original code called closeCropModal(), which was undefined.
+                // Replaced with a call to close the custom modal element directly.
+                document.getElementById('crop-detail-modal-container')?.remove(); 
+                document.body.style.overflow = '';
+                document.body.insertAdjacentHTML('beforeend', '<div id="error-message" class="fixed top-0 left-0 w-full p-4 bg-red-500 text-white text-center z-50">Could not load crop details. Please check the API.</div>');
+                setTimeout(() => document.getElementById('error-message')?.remove(), 3000);
+                return;
+            } finally {
+                loadingSpinner.remove(); // Remove spinner regardless of success/fail
+            }
+
+            // Immediately remove any existing modal to prevent stacking
+            // Calling closeModal() without an argument will now remove the custom crop modal.
+            closeModal(); 
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+            const { 
+                name, 
+                description, 
+                season, 
+                soilType, 
+                climate, 
+                waterRequirement, 
+                yieldPerHectare, 
+                marketPrice 
+            } = cropDetails;
+
+            // Build the modal HTML with detailed data and Tailwind classes converted to inline styles
+            const modalHTML = `
+                <div id="crop-detail-modal-container" class="modal" open style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; font-family: ui-sans-serif, system-ui;">
+                    <div style="background-color: white; padding: 30px; border-radius: 12px; max-width: 550px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); position: relative; animation: fadeIn 0.3s ease;">
+                        
+                        <button 
+                            onclick="closeModal()" 
+                            style="position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 32px; cursor: pointer; color: #71717A; line-height: 1; transition: color 0.1s ease; outline: none;"
+                            onmouseover="this.style.color='#1F2937'" onmouseout="this.style.color='#71717A'"
+                        >
+                            &times;
+                        </button>
+
+                        <h3 style="color: #10B981; margin-top: 0; font-size: 1.875rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 15px; margin-bottom: 20px;">${name} Details</h3>
+                        
+                        <p style="margin-bottom: 25px; color: #4B5563; font-size: 1rem; font-style: italic; line-height: 1.5;">${description}</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9375rem; color: #374151;">
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Season:</strong> ${season}</div>
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Soil Type:</strong> ${soilType}</div>
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Climate:</strong> ${climate}</div>
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Water Req.:</strong> ${waterRequirement}</div>
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Yield:</strong> ${yieldPerHectare}</div>
+                            <div style="border-left: 3px solid #6EE7B7; padding-left: 10px;"><strong style="color: #1F2937;">Market Price:</strong> ${marketPrice}</div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            // Inject the modal into the body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
   function renderRecommendations(container, items){
-    container.innerHTML = items.map(r => `
-      <div class="card">
-        <h4>${r.name || r.title}</h4>
-        <p class="muted">${r.description || r.desc || 'Crop recommendation'}</p>
-        <button class="btn btn-secondary">View Details</button>
-      </div>
-    `).join('');
-  }
+            console.log("Rendering recommendations:", items);
+            container.innerHTML = items.map(r => `
+              <div class="card bg-white p-5 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02]">
+                <h4 class="text-xl font-semibold text-gray-800 mb-2">${r.name || r.title}</h4>
+                <p class="text-sm text-gray-500 mb-4">${r.description || r.desc || 'Crop recommendation'}</p>
+                <button onclick="rendercrops(${r.id})" 
+                    class="view-button w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-150 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                >
+                    View Details
+                </button>
+              </div>
+            `).join('');
+        }
+
   function renderSchemes(container, items){
     container.innerHTML = items.map(s => `
       <tr>
@@ -755,6 +839,8 @@ let MOCK_MODE = false; // auto-enabled on first API failure
       </div>
     `).join('');
   }
+  
+  // EXPOSE GLOBAL FUNCTIONS TO FIX ONCLICK ERRORS
+  window.rendercrops = rendercrops;
+  window.closeModal = closeModal; // Expose closeModal globally to be used in the new onclick handler inside rendercrops
 })();
-
-

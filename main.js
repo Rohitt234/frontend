@@ -468,7 +468,7 @@ let MOCK_MODE = false; // auto-enabled on first API failure
 
   async function loadSchemes(container) {
     try {
-      const schemes = await apiCall('/government-schemes/public');
+      const schemes = await apiCall('/to');
       renderSchemes(container, schemes);
     } catch (error) {
       console.error('Failed to load schemes:', error);
